@@ -1,0 +1,11 @@
+img{
+  padding: 10px;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
+
+header{
+  background-image: url("https://uploads-ssl.webflow.com/614c9f162ff862f2367dbdb1/614f7648ae0e3479d33eb72c_bg-body-top.jpg");
+  background-size: 100%;
+}

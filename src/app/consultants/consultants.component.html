@@ -1,0 +1,10 @@
+<div class="search-container">
+  <input type="text" placeholder="Type name..." (input)="updateInput($event)" class="search">
+  <a [routerLink]="['/search', searchTerm]"><button class="btn btn-success pull-right" > SEARCH</button></a>
+</div>
+
+
+<div *ngFor="let consultant of consultants" class="consultant-container" [routerLink]="['/consultant', consultant.id]" >
+  <h3>{{consultant.name}}</h3>
+  <h4>{{consultant.role}}</h4>
+</div>

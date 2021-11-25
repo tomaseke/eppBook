@@ -1,0 +1,28 @@
+<div class="container container-margin">
+  <img [src]="consultant.photo" alt="persons photo">
+  <h2>{{consultant.name}}</h2>
+  <h3>{{consultant.role}}</h3>
+  <div class="skill-container container-margin">
+    <h4 class="skill-item">Technology</h4>
+    <h4 class="skill-item">Seniority</h4>
+    <h4 class="skill-item">Years</h4>
+  </div>
+  <ng-container *ngFor="let skill of consultant.skills">
+    <div class="skill-container">
+      <h5 class="skill-item">{{skill.technology}}</h5>
+      <h5 class="skill-item">{{skill.seniority}}</h5>
+      <h5 class="skill-item">{{skill.years}}</h5>
+    </div>
+  </ng-container>
+
+  <div class="skill-container container-margin">
+    <h5 class="language-item">Language</h5>
+    <h5 class="language-item">Level</h5>
+  </div>
+  <ng-container *ngFor="let language of consultant.languages">
+    <div class="skill-container">
+      <h5 class="language-item">{{language.language}}</h5>
+      <h5 class="language-item">{{language.level}}</h5>
+    </div>
+  </ng-container>
+</div>
