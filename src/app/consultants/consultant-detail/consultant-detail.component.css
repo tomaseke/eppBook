@@ -31,3 +31,10 @@ img{
   width: calc(50vw/2);
   border: 1px solid black;
 }
+
+
+.user-not-found{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

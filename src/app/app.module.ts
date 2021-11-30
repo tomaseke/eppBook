@@ -9,11 +9,19 @@ import { ConsultantDetailComponent } from './consultants/consultant-detail/consu
 import {RouterModule, Routes} from "@angular/router";
 import { HomepageComponent } from './homepage/homepage.component';
 import {FormsModule} from "@angular/forms";
+import { FilterPipe } from './filter.pipe';
+import { ReversePipe } from './reverse.pipe';
+import { SortPipe } from './sort.pipe';
+import {HttpClientModule} from "@angular/common/http";
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 
 const routes:Routes = [
   {path: '', component: ConsultantsComponent},
   {path: 'consultant/:id', component: ConsultantDetailComponent},
   {path: 'search/:searchTerm', component: ConsultantsComponent},
+  {path: 'signup', component: SignupComponent},
+  {path: 'login', component: LoginComponent},
 
 ]
 
@@ -23,12 +31,18 @@ const routes:Routes = [
     HeaderComponent,
     ConsultantsComponent,
     ConsultantDetailComponent,
-    HomepageComponent
+    HomepageComponent,
+    FilterPipe,
+    ReversePipe,
+    SortPipe,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [MainService],
   bootstrap: [AppComponent]

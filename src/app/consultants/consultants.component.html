@@ -1,10 +1,25 @@
 <div class="search-container">
-  <input type="text" placeholder="Type name..." (input)="updateInput($event)" class="search">
-  <a [routerLink]="['/search', searchTerm]"><button class="btn btn-success pull-right" > SEARCH</button></a>
+  <form (ngSubmit)="search(f)" #f="ngForm">
+  <input type="text" placeholder="Type name..." [(ngModel)]="name" class="search" [ngModelOptions]="{standalone:true}">
+
+  <div class="filter">
+    <label for="technology">
+      <input type="text" id="technology" placeholder="technology" name="technology" ngModel>
+    </label>
+    <label for="role">
+      <input type="text" id="role" placeholder="role" name="role" ngModel>
+    </label>
+  </div>
+    <button class="btn btn-success pull-right" type="submit">SEARCH</button>
+    <button type="button" (click)="testHttp()">TEST</button>
+  </form>
 </div>
 
-
-<div *ngFor="let consultant of consultants" class="consultant-container" [routerLink]="['/consultant', consultant.id]" >
+<div *ngIf="!loading">
+<div *ngFor="let consultant of consultants | sort | filter:name" class="consultant-container" [routerLink]="['/consultant', consultant.id]" >
   <h3>{{consultant.name}}</h3>
   <h4>{{consultant.role}}</h4>
 </div>
+</div>
+
+<div *ngIf="loading">LOADING...</div>

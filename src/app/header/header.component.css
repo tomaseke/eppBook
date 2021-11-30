@@ -9,3 +9,18 @@ header{
   background-image: url("https://uploads-ssl.webflow.com/614c9f162ff862f2367dbdb1/614f7648ae0e3479d33eb72c_bg-body-top.jpg");
   background-size: 100%;
 }
+
+.header-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+a{
+  text-decoration: none;
+  color:#aa205a;
+  margin: 5px;
+}
+
+
+
