@@ -104,5 +104,13 @@ export class ConsultantEditComponent implements OnInit {
     )
   }
 
+  removeSkill(i:number){
+    ((<FormArray>this.userForm.get('skills')).removeAt(i));
+}
+
+  removeLanguage(i:number){
+    ((<FormArray>this.userForm.get('languages')).removeAt(i));
+  }
+
 
 }

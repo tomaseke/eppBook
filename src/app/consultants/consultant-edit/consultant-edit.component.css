@@ -15,7 +15,7 @@
 }
 
 .skill-item{
-  padding: 10px;
+  padding: 5px;
   width: calc(50vw/3);
   border: 1px solid black;
 }
@@ -27,9 +27,8 @@ img{
 }
 
 .language-item{
-  padding: 10px;
   width: calc(50vw/2);
-  border: 1px solid black;
+  padding: 5px;
 }
 
 
@@ -38,3 +37,8 @@ img{
   justify-content: center;
   align-items: center;
 }
+
+.dropdown{
+  width: calc(50vw/3 + 11px);
+}
+
