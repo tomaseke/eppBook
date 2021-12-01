@@ -25,7 +25,11 @@
       <h5 class="language-item">{{language.level}}</h5>
     </div>
   </ng-container>
+  <button routerLink="edit">EDIT</button>
 </div>
+
+
+
 
 <div *ngIf="!isLoading && !isValidUser" class="user-not-found">
   <p>The user doesn't exist.</p>

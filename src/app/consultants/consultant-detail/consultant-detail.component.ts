@@ -20,8 +20,8 @@ export class ConsultantDetailComponent{
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
     this.mainService.fetchUsers().subscribe(res => {
-      if(res[0].find((user: any) => user.id === Number(this.id))){
-        this.consultant = res[0].find((user: any) => user.id === Number(this.id));
+      if(res.find((user: any) => user.id === Number(this.id))){
+        this.consultant = res.find((user: any) => user.id === Number(this.id));
         this.isValidUser = true;
       }
       else{

@@ -1,11 +1,14 @@
 <header class="header-container">
   <div class="left-side">
-    <img src="https://uploads-ssl.webflow.com/614c9f162ff862f2367dbdb1/614f797f8c5a6e40e538296c_logo.svg" alt="epptec logo" routerLink="">
+    <img *ngIf="isLoggedIn" src="https://uploads-ssl.webflow.com/614c9f162ff862f2367dbdb1/614f797f8c5a6e40e538296c_logo.svg" alt="epptec logo" routerLink="consultants">
+    <img *ngIf="!isLoggedIn" src="https://uploads-ssl.webflow.com/614c9f162ff862f2367dbdb1/614f797f8c5a6e40e538296c_logo.svg" alt="epptec logo" routerLink="home">
   </div>
 <div class="right-side">
   <div class="right-side-wrapper">
-  <a class="try" routerLink="signup">SIGN UP</a>
-  <a class="try" routerLink="login">LOG IN</a>
+  <a *ngIf="!isLoggedIn" routerLink="signup">SIGN UP</a>
+  <a *ngIf="!isLoggedIn" routerLink="login">LOG IN</a>
+  <a *ngIf="isLoggedIn" routerLink="consultants">CONSULTANTS</a>
+  <a *ngIf="isLoggedIn" routerLink="logout" (click)="logout()">LOG OUT</a>
   </div>
 </div>
 

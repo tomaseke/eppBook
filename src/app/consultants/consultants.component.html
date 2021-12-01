@@ -6,20 +6,33 @@
     <label for="technology">
       <input type="text" id="technology" placeholder="technology" name="technology" ngModel>
     </label>
+    <label for="seniority">
+      <input type="text" id="seniority" placeholder="seniority" name="seniority" ngModel>
+    </label>
+    <label for="language">
+      <input type="text" id="language" placeholder="language" name="language" ngModel>
+    </label>
+    <label for="level">
+      <select id="level" name="level" ngModel="A1">
+        <option *ngFor="let value of levelOptions">{{value}}</option>
+      </select>
+    </label>
     <label for="role">
-      <input type="text" id="role" placeholder="role" name="role" ngModel>
+      <select id="role" name="role" ngModel="developer">
+        <option *ngFor="let value of roleOptions">{{value}}</option>
+      </select>
     </label>
   </div>
     <button class="btn btn-success pull-right" type="submit">SEARCH</button>
-    <button type="button" (click)="testHttp()">TEST</button>
   </form>
 </div>
 
-<div *ngIf="!loading">
+<div *ngIf="!isLoading">
 <div *ngFor="let consultant of consultants | sort | filter:name" class="consultant-container" [routerLink]="['/consultant', consultant.id]" >
   <h3>{{consultant.name}}</h3>
   <h4>{{consultant.role}}</h4>
 </div>
 </div>
 
-<div *ngIf="loading">LOADING...</div>
+
+
