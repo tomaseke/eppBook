@@ -1,4 +1,7 @@
 <div class="container container-margin" *ngIf="!isLoading && isValidUser">
+  <button type="button" routerLink="/consultants" id="back-button">
+    <mat-icon>keyboard_backspace</mat-icon>
+  </button>
   <img [src]="consultant.photo" alt="persons photo">
   <h2>{{consultant.name}}</h2>
   <h3>{{consultant.role}}</h3>

@@ -1,8 +1,8 @@
 <div class="search-container">
   <form (ngSubmit)="search(f)" #f="ngForm">
-  <input type="text" placeholder="Type name..." [(ngModel)]="name" class="search" [ngModelOptions]="{standalone:true}">
+  <input type="text" placeholder="Type name..." [(ngModel)]="name" class="search" [ngModelOptions]="{standalone:true}" *ngIf="!isFilterShown">
 
-  <div class="filter">
+  <div class="filter" *ngIf="isFilterShown">
     <label for="technology">
       <input type="text" id="technology" placeholder="technology" name="technology" ngModel>
     </label>
@@ -13,21 +13,26 @@
       <input type="text" id="language" placeholder="language" name="language" ngModel>
     </label>
     <label for="level">
-      <select id="level" name="level" ngModel="A1">
+      <select id="level" name="level" ngModel="">
+        <option value="" disabled selected>Language level</option>
         <option *ngFor="let value of levelOptions">{{value}}</option>
       </select>
     </label>
     <label for="role">
-      <select id="role" name="role" ngModel="developer">
+      <select id="role" name="role" ngModel="">
+        <option value="" disabled selected>Role</option>
         <option *ngFor="let value of roleOptions">{{value}}</option>
       </select>
     </label>
+    <button type="submit">SEARCH</button>
   </div>
-    <button class="btn btn-success pull-right" type="submit">SEARCH</button>
+    <button type="button" (click)="toggleFilter()" id="filter-button">
+      <mat-icon>filter_list</mat-icon>
+    </button>
   </form>
 </div>
 
-<div *ngIf="!isLoading">
+<div *ngIf="!isLoading" class="consultants-container">
 <div *ngFor="let consultant of consultants | sort | filter:name" class="consultant-container" [routerLink]="['/consultant', consultant.id]" >
   <h3>{{consultant.name}}</h3>
   <h4>{{consultant.role}}</h4>

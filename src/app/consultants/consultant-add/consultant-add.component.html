@@ -1,0 +1,63 @@
+<form class="container container-margin" [formGroup]="userForm">
+  <div class="name-and-role">
+    <label for="photo">Photo:
+      <input type="text" id="photo" formControlName="photo">
+    </label>
+    <label for="name">Name:
+      <input type="text" id="name" formControlName="name" required>
+    </label>
+    <label for="role">Role:
+      <select name="role" id="role" formControlName="role" required>
+        <option *ngFor="let role of roleOptions" [value]="role">{{role}}</option>
+      </select>
+    </label>
+  </div>
+
+  <div formArrayName="skills">
+    <div class="skill-container container-margin" *ngIf="showTable('skills')">
+      <h4 class="skill-item">Technology</h4>
+      <h4 class="skill-item">Seniority</h4>
+      <h4 class="skill-item">Years</h4>
+      <div>
+        <button style="visibility: hidden">X</button>
+      </div>
+    </div>
+    <div class="skill-container" *ngFor="let skill of getControls('skills'); let i = index" [formGroupName]="i">
+      <input type="text" class="skill-item" formControlName="technology">
+      <select class="skill-item dropdown" name="seniority" id="seniority" formControlName="seniority">
+        <option *ngFor="let seniority of seniorityOptions" [value]="seniority">{{seniority}}</option>
+      </select>
+      <input type="text" class="skill-item" formControlName="years">
+      <div>
+        <button (click)="removeSkill(i)" style="background-color: red">X</button>
+      </div>
+    </div>
+    <button type="button" class="remove-button" (click)="addSkill()">Add skill</button>
+  </div>
+
+  <div formArrayName="languages">
+    <div class="skill-container container-margin" *ngIf="showTable('languages')">
+      <h5 class="language-item">Language</h5>
+      <h5 class="language-item" style="margin-right: 30px">Level</h5>
+    </div>
+    <div class="skill-container"  *ngFor="let language of getControls('languages'); let i = index" [formGroupName]="i">
+      <input type="text" class="language-item" formControlName="language">
+      <select class="language-item" name="level" id="level" formControlName="level">
+        <option *ngFor="let level of levelOptions" [value]="level">{{level}}</option>
+      </select>
+      <button (click)="removeLanguage(i)" style="background-color: red">X</button>
+    </div>
+    <button type="button" (click)="addLanguage()">Add language</button>
+  </div>
+
+  <div class="edit-buttons">
+    <button (click)="saveUser()" >SAVE</button>
+    <button type="button" routerLink="/consultants">CANCEL</button>
+  </div>
+
+</form>
+
+<h3 *ngIf="isError">Please enter name and role</h3>
+
+
+

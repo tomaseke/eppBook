@@ -123,15 +123,18 @@ export class MainService{
   }
 
 
-  filterUsers(technology: string = '', technologySeniority: number = 0, language:string = '', languageLevel: string = '', role:string = '') {
+  filterUsers(technology: string, technologySeniority: number, language:string, languageLevel: string, role:string) {
+
+
+    if(!technology && !technologySeniority && !language && !languageLevel && !role) return this.users;
 
 
     /////// REFACTOOOOOOOOOOOOOOOOOOOOOOOOR!!!!!!!!!!! ///////////////
 
     const usersFilteredByTechnology: UserModel[] = [];
       this.users.forEach(user => {
-        return user.skills.forEach(skill => {
-          if (skill.technology === technology && skill.seniority >= technologySeniority) {
+        user.skills.forEach(skill => {
+          if ((skill.technology === technology || !technology) && (skill.seniority >= technologySeniority || !technologySeniority)) {
             usersFilteredByTechnology.push(user);
           }
         })
@@ -141,7 +144,7 @@ export class MainService{
 
       this.users.forEach(user => {
          user.languages.forEach(lang => {
-          if (lang.language === language && lang.level === languageLevel) {
+          if ((lang.language === language || !language) && (lang.level === languageLevel || !languageLevel)) {
             usersFilteredByLanguage.push(user);
           }
         })
@@ -151,15 +154,13 @@ export class MainService{
     const usersFilteredByRole: UserModel[] = [];
 
      this.users.forEach(user => {
-       if(user.role === role){
+       if(user.role === role || !role){
          usersFilteredByRole.push(user);
        }
      })
 
 
-    const allInfoInputted = !!(technology && technologySeniority && language && languageLevel && role);
     const users: UserModel[] = [];
-    if(allInfoInputted){
       usersFilteredByRole.forEach(user => {
         usersFilteredByTechnology.forEach(user1 => {
           usersFilteredByLanguage.forEach(user2 => {
@@ -169,9 +170,8 @@ export class MainService{
           })
         })
       })
-    }
 
-    return users;
+    return [...new Set(users)];
 
   }
 
@@ -204,6 +204,24 @@ export class MainService{
       this.http.put(`https://eppbook-c9da8-default-rtdb.firebaseio.com/users.json?auth=${token}`, this.users)
         .subscribe(pipe(() => this.router.navigate(['/consultants'])));
     }
+
+  }
+
+  addUser(photo: string, skills: Skill[], languages: Language[], role: Roles, name:string){
+    let newUser: UserModel = {
+      skills,
+      languages,
+      role,
+      name,
+      photo,
+      id: this.users.length + 1
+    }
+    this.users.push(newUser);
+
+    let token = JSON.parse(localStorage.getItem('userData')!)._token;
+
+    this.http.put(`https://eppbook-c9da8-default-rtdb.firebaseio.com/users.json?auth=${token}`, this.users)
+      .subscribe(pipe(() => this.router.navigate(['/consultants'])));
 
   }
 }

@@ -1,5 +1,6 @@
 <form class="container container-margin" *ngIf="!isLoading && isValidUser" [formGroup]="userForm">
   <img [src]="consultant.photo" alt="persons photo">
+  <div class="name-and-role">
   <label for="name">Name:
   <input type="text" id="name" formControlName="name">
   </label>
@@ -8,6 +9,7 @@
       <option *ngFor="let role of roleOptions" [value]="role">{{role}}</option>
     </select>
   </label>
+  </div>
 
   <div formArrayName="skills">
   <div class="skill-container container-margin">
@@ -46,8 +48,10 @@
   <button type="button" (click)="addLanguage()">Add language</button>
   </div>
 
+  <div class="edit-buttons">
   <button (click)="saveEdit()">SAVE</button>
-
+  <button type="button" routerLink="..">CANCEL</button>
+  </div>
 
 </form>
 

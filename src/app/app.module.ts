@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -17,9 +18,13 @@ import { SignupComponent } from './signup/signup.component';
 import { LogoutComponent } from './logout/logout.component';
 import { HomeComponent } from './home/home.component';
 import { ConsultantEditComponent } from './consultants/consultant-edit/consultant-edit.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatIconModule} from "@angular/material/icon";
+import { ConsultantAddComponent } from './consultants/consultant-add/consultant-add.component';
 
 const routes:Routes = [
   {path: 'consultant/:id', component: ConsultantDetailComponent},
+  {path: 'consultant-add', component: ConsultantAddComponent},
   {path: 'search/:searchTerm', component: ConsultantsComponent},
   {path: 'consultants', component: ConsultantsComponent},
   {path: 'signup', component: SignupComponent},
@@ -43,16 +48,22 @@ const routes:Routes = [
     SignupComponent,
     LogoutComponent,
     HomeComponent,
-    ConsultantEditComponent
+    ConsultantEditComponent,
+    ConsultantAddComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatIconModule
   ],
   providers: [MainService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ],
 })
 export class AppModule { }

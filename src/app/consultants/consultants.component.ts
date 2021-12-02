@@ -12,13 +12,15 @@ import {AuthService} from "../auth.service";
 })
 export class ConsultantsComponent implements OnInit {
 
+  filteredConsultants!: UserModel[];
   consultants!: UserModel[];
   name: string = '';
   isLoading: boolean = true;
   isLoggedIn: boolean = false;
+  isFilterShown: boolean = false;
 
 
-  levelOptions = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+  levelOptions = [ 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
   roleOptions = ['developer', 'smart', 'analytik', 'product manager']
 
   constructor(private mainService:MainService, private route:ActivatedRoute, private authService: AuthService) {
@@ -50,11 +52,13 @@ export class ConsultantsComponent implements OnInit {
    const level = form.value.level;
    const role = form.value.role;
 
-
-   // @ts-ignore
    this.consultants = this.mainService.filterUsers(technology,seniority,language,level,role);
 
  }
 
+
+ toggleFilter(){
+    this.isFilterShown = !this.isFilterShown;
+ }
 
 }

@@ -38,3 +38,9 @@ img{
   justify-content: center;
   align-items: center;
 }
+
+#back-button{
+  position: absolute;
+  top: 80px;
+  left: 10px;
+}

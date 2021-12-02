@@ -1,4 +1,4 @@
-<form (ngSubmit)="handleLogin(f)" #f='ngForm'>
+<form (ngSubmit)="handleLogin(f)" #f='ngForm' class="login-container">
   <input type="text" name="email" id="email" placeholder="email" ngModel required>
   <input type="password" name="password" id="password" placeholder="password" ngModel required minlength="6">
   <button type="submit">LOGIN</button>
