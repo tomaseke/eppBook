@@ -1,21 +1,31 @@
 import {Language, Roles, Skill, UserModel} from "./user.model";
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {exhaustMap, map, pipe, Subject, take} from "rxjs";
+import {  map, pipe, Subject, } from "rxjs";
 import {AuthService} from "./auth.service";
 import {Router} from "@angular/router";
 
 @Injectable()
 export class MainService{
 
+  userToken!: any;
   users!: UserModel[];
   updatedUsers = new Subject<UserModel[]>();
 
   constructor(private http: HttpClient, private authService: AuthService, private router: Router) {
-    this.fetchUsers().subscribe(res => {
-      this.users = res;
+    this.authService.user.subscribe(user => {
+      console.log('constructor')
+      if(user) {
+        this.userToken = user!.token;
+        this.fetchUsers().subscribe((res) => this.users = res);
+      }
+      else{
+        this.userToken = null;
+      }
     })
+
   }
+
 
 
   // users: UserModel[] = [{
@@ -129,47 +139,21 @@ export class MainService{
     if(!technology && !technologySeniority && !language && !languageLevel && !role) return this.users;
 
 
-    /////// REFACTOOOOOOOOOOOOOOOOOOOOOOOOR!!!!!!!!!!! ///////////////
-
-    const usersFilteredByTechnology: UserModel[] = [];
-      this.users.forEach(user => {
-        user.skills.forEach(skill => {
-          if ((skill.technology === technology || !technology) && (skill.seniority >= technologySeniority || !technologySeniority)) {
-            usersFilteredByTechnology.push(user);
-          }
-        })
-      })
-
-    const usersFilteredByLanguage: UserModel[] = [];
-
-      this.users.forEach(user => {
-         user.languages.forEach(lang => {
-          if ((lang.language === language || !language) && (lang.level === languageLevel || !languageLevel)) {
-            usersFilteredByLanguage.push(user);
-          }
-        })
-      })
-
-
-    const usersFilteredByRole: UserModel[] = [];
-
-     this.users.forEach(user => {
-       if(user.role === role || !role){
-         usersFilteredByRole.push(user);
-       }
-     })
-
-
     const users: UserModel[] = [];
-      usersFilteredByRole.forEach(user => {
-        usersFilteredByTechnology.forEach(user1 => {
-          usersFilteredByLanguage.forEach(user2 => {
-            if(user.id === user1.id && user1.id === user2.id){
-              users.push(user);
-            }
-          })
+
+    this.users.forEach(user => {
+      if((user.role === role || !role)){
+        user.skills.forEach(skill => {
+          if((skill.technology === technology || !technology) && (skill.seniority >= technologySeniority || !technologySeniority)){
+            user.languages.forEach(lang => {
+              if((lang.language === language || !language) && (lang.level === languageLevel || !languageLevel)){
+               users.push(user);
+              }
+            })
+          }
         })
-      })
+      }
+        })
 
     return [...new Set(users)];
 
@@ -177,18 +161,13 @@ export class MainService{
 
 
   fetchUsers(){
-    return this.authService.user.pipe(take(1),
-      exhaustMap(user => {
-      return this.http.get(`https://eppbook-c9da8-default-rtdb.firebaseio.com/users.json?auth=${user!.token}`)
-    }),map(res => {
-        let arr:any = [];
-        for(const key in res){
-          // @ts-ignore
-          arr.push(res[key]);
-        }
-        return arr;
-      }
-    ))
+
+    return this.http.get(`https://eppbook-c9da8-default-rtdb.firebaseio.com/users.json?auth=${this.userToken}`).pipe(map(res => {
+      // @ts-ignore
+      return [...res];
+    }))
+
+
   }
 
   updateUser(id: number, skills: Skill[], languages: Language[], role: Roles, name:string){
@@ -214,7 +193,7 @@ export class MainService{
       role,
       name,
       photo,
-      id: this.users.length + 1
+      id: Date.now()
     }
     this.users.push(newUser);
 
@@ -222,6 +201,22 @@ export class MainService{
 
     this.http.put(`https://eppbook-c9da8-default-rtdb.firebaseio.com/users.json?auth=${token}`, this.users)
       .subscribe(pipe(() => this.router.navigate(['/consultants'])));
+  }
+
+  deleteUser(id: number){
+    let newUsers = this.users.filter(user => user.id != id);
+    this.users = newUsers;
+
+    let token = JSON.parse(localStorage.getItem('userData')!)._token;
+
+    this.http.put(`https://eppbook-c9da8-default-rtdb.firebaseio.com/users.json?auth=${token}`, this.users)
+      .subscribe((res) => {
+        this.router.navigate(['/consultants']);
+      } )
+
 
   }
+
+
+
 }

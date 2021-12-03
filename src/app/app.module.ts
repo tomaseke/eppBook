@@ -21,8 +21,11 @@ import { ConsultantEditComponent } from './consultants/consultant-edit/consultan
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatIconModule} from "@angular/material/icon";
 import { ConsultantAddComponent } from './consultants/consultant-add/consultant-add.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatInputModule} from "@angular/material/input";
 
 const routes:Routes = [
+  {path: '', component: HomeComponent},
   {path: 'consultant/:id', component: ConsultantDetailComponent},
   {path: 'consultant-add', component: ConsultantAddComponent},
   {path: 'search/:searchTerm', component: ConsultantsComponent},
@@ -58,7 +61,9 @@ const routes:Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatIconModule
+    MatIconModule,
+    MatAutocompleteModule,
+    MatInputModule
   ],
   providers: [MainService],
   bootstrap: [AppComponent],

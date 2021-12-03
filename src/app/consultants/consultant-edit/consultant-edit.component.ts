@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {MainService} from "../../main.service";
 import {ActivatedRoute} from "@angular/router";
-import {FormArray, FormControl, FormGroup} from "@angular/forms";
+import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserModel} from "../../user.model";
 
 @Component({
@@ -16,12 +16,12 @@ export class ConsultantEditComponent implements OnInit {
   id!: number;
   isLoading: boolean = true;
   isValidUser!: boolean;
+  isError:boolean = false;
   userForm!: FormGroup;
 
   levelOptions = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
   roleOptions = ['developer', 'smart', 'analytik', 'product manager'];
   seniorityOptions = [1,2,3,4,5,6,7,8,9,10];
-
 
   constructor(private mainService: MainService, private route: ActivatedRoute) {
   }
@@ -44,30 +44,36 @@ export class ConsultantEditComponent implements OnInit {
 
   initForm(){
 
-    let skills = new FormArray([]);
-    let languages = new FormArray([]);
+    let skills = new FormArray([], Validators.required);
+    let languages = new FormArray([], Validators.required);
 
-    for(let skill of this.consultant.skills){
-      skills.push(new FormGroup({
-        technology: new FormControl(skill.technology),
-        seniority: new FormControl(skill.seniority),
-        years: new FormControl(skill.years),
-      }))
+    if(this.consultant.skills.length){
+      for(let skill of this.consultant.skills){
+        skills.push(new FormGroup({
+          technology: new FormControl(skill.technology, Validators.required),
+          seniority: new FormControl(skill.seniority, Validators.required),
+          years: new FormControl(skill.years, Validators.required),
+        }))
+      }
     }
 
+  if(this.consultant.languages.length){
     for(let language of this.consultant.languages){
       languages.push(new FormGroup({
-        language: new FormControl(language.language),
-        level: new FormControl(language.level),
-      }))
+        language: new FormControl(language.language, Validators.required),
+        level: new FormControl(language.level, Validators.required),
+      }, Validators.required))
     }
+  }
+
 
     this.userForm = new FormGroup({
-      name: new FormControl(this.consultant.name),
-      role: new FormControl(this.consultant.role),
+      photo: new FormControl(this.consultant.photo, Validators.required),
+      name: new FormControl(this.consultant.name, Validators.required),
+      role: new FormControl(this.consultant.role, Validators.required),
       skills: skills,
       languages: languages
-    })
+    }, Validators.required)
 
   }
 
@@ -77,20 +83,27 @@ export class ConsultantEditComponent implements OnInit {
   }
 
   saveEdit(){
-      this.mainService.updateUser(this.id,
-        this.userForm.value.skills,
-        this.userForm.value.languages,
-        this.userForm.value.role,
-        this.userForm.value.name);
+
+      if(this.userForm.valid){
+        this.isError = false;
+        this.mainService.updateUser(this.id,
+          this.userForm.value.skills,
+          this.userForm.value.languages,
+          this.userForm.value.role,
+          this.userForm.value.name);
+      }
+      else{
+        this.isError = true;
+      }
 
   }
 
   addSkill(){
     (<FormArray>this.userForm.get('skills')).push(
       new FormGroup({
-        technology: new FormControl(),
-        seniority: new FormControl(),
-        years: new FormControl(),
+        technology: new FormControl('', Validators.required),
+        seniority: new FormControl('', Validators.required),
+        years: new FormControl('', Validators.required),
       })
     )
   }
@@ -98,8 +111,8 @@ export class ConsultantEditComponent implements OnInit {
   addLanguage(){
     (<FormArray>this.userForm.get('languages')).push(
       new FormGroup({
-        language: new FormControl(),
-        level: new FormControl(),
+        language: new FormControl('', Validators.required),
+        level: new FormControl('', Validators.required),
       })
     )
   }

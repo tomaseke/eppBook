@@ -4,13 +4,28 @@
 
   <div class="filter" *ngIf="isFilterShown">
     <label for="technology">
-      <input type="text" id="technology" placeholder="technology" name="technology" ngModel>
+      <input type="text" id="technology" placeholder="technology" name="technology" ngModel
+             matInput
+             [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let technology of technologyOptions" [value]="technology">
+          {{technology}}
+        </mat-option>
+      </mat-autocomplete>
     </label>
-    <label for="seniority">
-      <input type="text" id="seniority" placeholder="seniority" name="seniority" ngModel>
-    </label>
+    <select id="seniority" name="seniority" ngModel="">
+      <option value="" disabled selected>Seniority</option>
+      <option *ngFor="let value of seniorityOptions">{{value}}</option>
+    </select>
     <label for="language">
-      <input type="text" id="language" placeholder="language" name="language" ngModel>
+      <input type="text" id="language" placeholder="language" name="language" ngModel
+             matInput
+             [matAutocomplete]="auto2">
+      <mat-autocomplete #auto2="matAutocomplete">
+        <mat-option *ngFor="let language of languageOptions" [value]="language">
+          {{language}}
+        </mat-option>
+      </mat-autocomplete>
     </label>
     <label for="level">
       <select id="level" name="level" ngModel="">
@@ -33,7 +48,7 @@
 </div>
 
 <div *ngIf="!isLoading" class="consultants-container">
-<div *ngFor="let consultant of consultants | sort | filter:name" class="consultant-container" [routerLink]="['/consultant', consultant.id]" >
+<div *ngFor="let consultant of (consultants) | sort | filter:name" class="consultant-container" [routerLink]="['/consultant', consultant.id]" >
   <h3>{{consultant.name}}</h3>
   <h4>{{consultant.role}}</h4>
 </div>

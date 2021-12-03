@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {UserModel} from "../../user.model";
-import {FormArray, FormControl, FormGroup} from "@angular/forms";
+import {FormArray, FormControl, FormGroup, Validator, Validators} from "@angular/forms";
 import {MainService} from "../../main.service";
 
 @Component({
@@ -28,14 +28,14 @@ export class ConsultantAddComponent implements OnInit {
 
   initForm(){
 
-    let skills = new FormArray([]);
-    let languages = new FormArray([]);
+    let skills = new FormArray([], Validators.required);
+    let languages = new FormArray([], Validators.required);
 
 
     this.userForm = new FormGroup({
-      photo: new FormControl(),
-      name: new FormControl(),
-      role: new FormControl(),
+      photo: new FormControl('',Validators.required),
+      name: new FormControl('',[Validators.required, Validators.pattern(/^[a-z,',-]+(\s)[a-z,',-]+$/i)]),
+      role: new FormControl('',Validators.required),
       skills: skills,
       languages: languages
     })
@@ -52,9 +52,9 @@ export class ConsultantAddComponent implements OnInit {
   addSkill(){
     (<FormArray>this.userForm.get('skills')).push(
       new FormGroup({
-        technology: new FormControl(),
-        seniority: new FormControl(),
-        years: new FormControl(),
+        technology: new FormControl('', Validators.required),
+        seniority: new FormControl('', Validators.required),
+        years: new FormControl('', Validators.required),
       })
     )
   }
@@ -62,8 +62,8 @@ export class ConsultantAddComponent implements OnInit {
   addLanguage(){
     (<FormArray>this.userForm.get('languages')).push(
       new FormGroup({
-        language: new FormControl(),
-        level: new FormControl(),
+        language: new FormControl('', Validators.required),
+        level: new FormControl('', Validators.required),
       })
     )
   }
@@ -86,6 +86,8 @@ export class ConsultantAddComponent implements OnInit {
       this.isError = true;
     }
   }
+
+
 
   showTable(controlName: string){
     return (this.userForm.get(controlName) as FormArray).controls.length;

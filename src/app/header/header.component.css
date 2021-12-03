@@ -20,12 +20,22 @@ header{
 a{
   text-decoration: none;
   color:#aa205a;
-  margin: 10px;
+  height: 100%;
+  width: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+a:hover{
+  background-color: #aa205a;
+  color: white;
 }
 
 .right-side-wrapper{
   display: flex;
   align-items: center;
+  height: 100%;
 }
 
 .right-side{

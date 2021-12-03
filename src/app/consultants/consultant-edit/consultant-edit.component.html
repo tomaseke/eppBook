@@ -1,5 +1,7 @@
 <form class="container container-margin" *ngIf="!isLoading && isValidUser" [formGroup]="userForm">
-  <img [src]="consultant.photo" alt="persons photo">
+  <label for="photo">Photo:
+  <input type="text" id="photo" formControlName="photo">
+  </label>
   <div class="name-and-role">
   <label for="name">Name:
   <input type="text" id="name" formControlName="name">
@@ -49,13 +51,12 @@
   </div>
 
   <div class="edit-buttons">
-  <button (click)="saveEdit()">SAVE</button>
+  <button (click)="saveEdit()" >SAVE</button>
   <button type="button" routerLink="..">CANCEL</button>
   </div>
-
 </form>
 
-
+<h2 *ngIf="isError">Please input all the fields!</h2>
 
 <div *ngIf="!isLoading && !isValidUser" class="user-not-found">
   <p>The user doesn't exist.</p>

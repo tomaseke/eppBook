@@ -1,20 +1,21 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {MainService} from "../../main.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {tap} from "rxjs";
 
 @Component({
   selector: 'app-consultant-detail',
   templateUrl: './consultant-detail.component.html',
   styleUrls: ['./consultant-detail.component.css']
 })
-export class ConsultantDetailComponent{
+export class ConsultantDetailComponent {
 
   consultant: any;
   id!: number;
   isLoading: boolean = true;
   isValidUser!: boolean;
 
-  constructor(private mainService: MainService, private route: ActivatedRoute) {
+  constructor(private mainService: MainService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -30,6 +31,10 @@ export class ConsultantDetailComponent{
       this.isLoading = false;
 
     })
+  }
+
+  deleteUser(){
+    this.mainService.deleteUser(this.id);
   }
 
 
